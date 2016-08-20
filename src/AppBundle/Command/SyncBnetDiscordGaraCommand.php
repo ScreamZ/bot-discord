@@ -29,9 +29,41 @@ class SyncBnetDiscordGaraCommand extends ContainerAwareCommand
 
         $discord = new Discord($token);
 
-        $discord->getGuilds(216152652164235264);
+        $guildRepository = $discord->createRepository('guild');
 
+        $guild = $guildRepository->getGuilds(216152652164235264);
+
+        dump($guild);
         die;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         $discord = new Discord([
             'token' => $token,
         ]);
