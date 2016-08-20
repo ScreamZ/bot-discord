@@ -8,10 +8,8 @@ use DiscordPHPBundle\Repositories\ChannelRepository;
 use DiscordPHPBundle\Repositories\GuildRepository;
 use DiscordPHPBundle\Repositories\UserRepository;
 
-final class Discord
+class Discord
 {
-    public static $instance;
-
     public $token;
 
     public function __construct($token)
