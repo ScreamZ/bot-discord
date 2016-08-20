@@ -2,43 +2,40 @@
 
 namespace DiscordPHPBundle\Parts;
 
-
 use DiscordPHPBundle\Components\Constants;
 use DiscordPHPBundle\Components\HttpDriver;
+use DiscordPHPBundle\Repositories\ChannelRepository;
+use DiscordPHPBundle\Repositories\GuildRepository;
+use DiscordPHPBundle\Repositories\UserRepository;
 
-class Discord
+final class Discord
 {
-    protected $token;
+    public static $instance;
 
-    protected $http;
+    public $token;
 
     public function __construct($token)
     {
         $this->token = $token;
-        $this->http = new HttpDriver($token);
+        $httpDriver = HttpDriver::getInstance();
+        $httpDriver->initDriver($token);
     }
 
-    public function callURL($url, $method)
+    public function createRepository($name)
     {
-        $httpClient = $this->http;
-        $result = $httpClient->http->request(
-            $method,
-            $httpClient->baseURL . $url
-        );
+        switch ($name) {
+            case 'guild':
+                return new GuildRepository();
+                break;
+            case 'user':
+                return new UserRepository();
+                break;
+            case 'channel':
+                return new ChannelRepository();
+                break;
+            default:
+                return Constants::ERROR_FACTORY_REPOSITORY;
 
-        //Casting string obligated
-        $response = (string)$result->getBody();
-
-        return json_decode($response, true);
-    }
-
-    public function getGuilds($guildID)
-    {
-        $url = str_replace('{guild.id}', $guildID, Constants::AllGuilds);
-
-        dump($this->callURL($url, 'GET'));
-        die;
-
-        //TODO : construct Guild entity
+        }
     }
 }
