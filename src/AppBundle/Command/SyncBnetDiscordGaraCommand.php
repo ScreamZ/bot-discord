@@ -31,9 +31,22 @@ class SyncBnetDiscordGaraCommand extends ContainerAwareCommand
 
         $guildRepository = $discord->createRepository('guild');
 
-        $guild = $guildRepository->getGuilds(216152652164235264);
+        try {
+            $guild = $guildRepository->getGuild(216152652164235264);
 
-        dump($guild);
+            dump($guild);
+
+            $guild->setName('test');
+            dump($guild);
+
+            $guild = $guildRepository->modifyGuild($guild->getId(), $guild);
+            dump($guild);
+
+        } catch (\Exception $e) {
+            dump($e->getMessage());
+        }
+
+
         die;
 
 

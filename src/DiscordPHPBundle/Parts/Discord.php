@@ -8,6 +8,8 @@ use DiscordPHPBundle\Repositories\ChannelRepository;
 use DiscordPHPBundle\Repositories\GuildRepository;
 use DiscordPHPBundle\Repositories\UserRepository;
 
+# See : https://discordapi.com/permissions.html for permissions builder
+
 class Discord
 {
     public $token;

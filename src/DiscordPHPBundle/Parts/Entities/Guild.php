@@ -13,17 +13,21 @@ class Guild
 
     public $roles;
 
+    public $jsonResult;
+
     /**
      * Guild constructor.
      * @param $id
      * @param $name
      * @param $roles
      */
-    public function __construct($id, $name, $roles)
+    public function __construct($result)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->roles = $roles;
+        $this->jsonResult = $result;
+
+        $this->id = $result['id'];
+        $this->name = $result['name'];
+        $this->roles = $result['roles'];
     }
 
     /**
@@ -64,6 +68,22 @@ class Guild
     public function setRoles($roles)
     {
         $this->roles = $roles;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJsonResult()
+    {
+        return $this->jsonResult;
+    }
+
+    /**
+     * @param mixed $jsonResult
+     */
+    public function setJsonResult($jsonResult)
+    {
+        $this->jsonResult = $jsonResult;
     }
 
 }

@@ -3,6 +3,8 @@
 namespace DiscordPHPBundle\Components;
 
 use \GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\ResponseInterface;
 
 final class HttpDriver
 {
@@ -41,19 +43,28 @@ final class HttpDriver
                 ]
             )
         );
-
     }
 
-    public function callURL($url, $method)
+    /**
+     * @param ApiCall $apiCall
+     * @param null $body
+     * @return mixed
+     */
+    public function callURL(ApiCall $apiCall, $body = null)
     {
-        $result = $this->http->request(
-            $method,
-            $this->baseURL . $url
-        );
+        try {
+            $result = $this->http->request(
+                $apiCall->getMethod(),
+                $this->baseURL . $apiCall->getUrl(),
+                array('form_params' => $body)
+            );
+        } catch (ClientException $exception) {
+            throw $exception;
+        }
 
-        //Casting string obligated
         $response = (string)$result->getBody();
 
         return json_decode($response, true);
     }
+
 }
